@@ -20,8 +20,7 @@ foreach($_GET as $g => $v){
 	$_GET[$g] = htmlentities($v, ENT_QUOTES, 'UTF-8');
 }
 
-mysql_select_db("t2", mysql_connect("localhost", "root", "lilicali"));
-//mysql_select_db("553330", mysql_connect("localhost", "553330", "lilica99"));
+mysql_select_db("", mysql_connect("", "", "")); //ommited for security
 
 function generatorError($error, $page=''){
 	$_SESSION["erro"] = $error;
@@ -43,7 +42,6 @@ if(isset($_POST["clogin"], $_POST["password"], $_POST["cname"], $_POST["cpasswor
 }
 
 function q($q){
-	//return (mysql_query($q)) or die("Erro no MYSQL: "+mysql_error());
 	return mysql_query($q);
 }
 

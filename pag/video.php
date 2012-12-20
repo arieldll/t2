@@ -39,20 +39,12 @@
 		<div class='title'>Music</div>
 		<div class='text-content'>$music</div>";
 		
-		
-		//$artist = str_replace(' ', '%20', $artist);
-		//$music = str_replace(' ', '%20', $music);
-		/*$artist = str_replace('&', 'e', $artist);
-		$music = str_replace('&', 'e', $music);*/
+		//get valume info
 		$artist = urlencode($artist);
 		$music = urlencode($music);
-		//get music from letras.mus.br
-		/*$artist = str_replace(' ', '%20', $artist);
-		$music = str_replace(' ', '%20', $music); */
 		$url_datamusic = "http://www.vagalume.com.br/api/search.php?art=$artist&extra=ytid&mus=$music";		
 		$datamusic = curl_init();
 		curl_setopt($datamusic, CURLOPT_URL, $url_datamusic);
-		//curl_setopt($datamusic, CURLOPT_HTTPHEADER,array ("Content-Type: text/xml; charset=utf-8"));
 		curl_setopt($datamusic, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($datamusic, CURLOPT_FOLLOWLOCATION, true);
 		$response_code = curl_getinfo($datamusic, CURLINFO_HTTP_CODE);
@@ -60,13 +52,6 @@
 		curl_close($datamusic);
 		$result_music = str_replace('\n', '<br />', $result_music);
 		$rsm = json_decode($result_music);
-		//print_r($rsm);
-		
-		/*if($rsm->{'captcha'}){
-			echo $rsm->{'serial'};
-		} */
-		//echo '<br /><br />';
-		//print_r($rsm->{'mus'});
 		if($rsm->{'type'}!='notfound'){
 			$content_field = "<div class='title'>Lyrics</div><div class='text-content'>".str_replace('\n', '<br />', $rsm->{'mus'}[0]->{'text'})."</div>";
 			$content_field.= "<div class='title'>URL</div>
@@ -80,7 +65,6 @@
 		if(!isset($linkyt) && !strlen($linkyt)){
 			
 			$url = "https://gdata.youtube.com/feeds/api/videos?q=$music-+$artist&orderby=relevance&start-index=5&max-results=3&v=1&strict=true";
-			//echo $url;
 			$data = simplexml_load_file($url);
 			if(isset($data)) foreach($data as $dat){
 				$url_video = explode('&', $dat->link['href']);
